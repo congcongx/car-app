@@ -1,0 +1,12 @@
+datasource:
+  url:
+    st: jdbc:mysql://localhost:3306/st?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    jh: jdbc:mysql://localhost:3306/jh?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+  username:
+    st: root
+    jh: root
+  password:
+    st: 123456
+    jh: 123456
+  driver-class-name: com.mysql.cj.jdbc.Driver
+
