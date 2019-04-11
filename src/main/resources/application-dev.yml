@@ -1,12 +1,17 @@
-datasource:
-  url:
-    st: jdbc:mysql://localhost:3306/st?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
-    jh: jdbc:mysql://localhost:3306/jh?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
-  username:
-    st: root
-    jh: root
-  password:
-    st: 123456
-    jh: 123456
-  driver-class-name: com.mysql.cj.jdbc.Driver
-
+spring:
+  datasource:
+    hikari:
+      st:
+        name: st
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/st?useSSL=false
+        password: 123456
+        username: root
+        port: 3306
+      jh:
+        name: jh
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/jh?useSSL=false
+        password: 123456
+        username: root
+        port: 3306
