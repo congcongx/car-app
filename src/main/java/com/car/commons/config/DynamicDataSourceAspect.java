@@ -2,7 +2,7 @@ package com.car.commons.config;
 
 
 import com.car.commons.constants.Const;
-import com.car.commons.enums.DataSourceKey;
+import com.car.commons.enums.DataSourceEnum;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -25,10 +25,7 @@ public class DynamicDataSourceAspect {
 
     //配置service切点
     @Pointcut("execution( * com.car.service..* (..) )")
-    public void aspect(){
-        System.out.println("aaaaaaaaaaaaaa");
-    }
-
+    public void aspect(){ }
 
     @Before("aspect()")
     public void switchDataSource(JoinPoint joinPoint) {
@@ -39,9 +36,9 @@ public class DynamicDataSourceAspect {
             for(int i = 0; i <parameterNames.length; i++) {
                 if(Const.DATASOURCE.equals(parameterNames[i])){
                     String dataSource = (String) joinPoint.getArgs()[i];
-                    for(DataSourceKey dataSourceKey: DataSourceKey.values()) {
-                        if (dataSourceKey.name().equals(dataSource)) {
-                            DataSourceContextHolder.setDataSourceKey(dataSourceKey.name());
+                    for(DataSourceEnum dataSourceEnum: DataSourceEnum.values()) {
+                        if (dataSourceEnum.name().equals(dataSource)) {
+                            DataSourceContextHolder.setDataSourceEnum(dataSourceEnum);
                             return;
                         }
                     }
@@ -54,7 +51,7 @@ public class DynamicDataSourceAspect {
 
     @After("aspect()")
     public void restoreDataSource(JoinPoint point) {
-        DataSourceContextHolder.clearDataSourceKey();
+        DataSourceContextHolder.clearDataSourceEnum();
     }
 
 

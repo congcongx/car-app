@@ -1,6 +1,6 @@
 package com.car;
 
-import com.car.commons.enums.DataSourceKey;
+import com.car.commons.enums.DataSourceEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,8 +12,8 @@ public class CarAppApplicationTests {
 
     @Test
     public void contextLoads() {
-        DataSourceKey[] values = DataSourceKey.values();
-        for (DataSourceKey d : values) {
+        DataSourceEnum[] values = DataSourceEnum.values();
+        for (DataSourceEnum d : values) {
             System.out.println(d.name());
         }
         System.out.println(values.toString());

@@ -1,25 +1,23 @@
 package com.car.commons.config;
 
-import com.car.commons.enums.DataSourceKey;
+import com.car.commons.enums.DataSourceEnum;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@MapperScan("com.car.mapper")
 public class DataSourceConfigure {
 
     @Bean
-    @Primary
     @ConfigurationProperties(prefix = "spring.datasource.hikari.st")
     public DataSource st() {
         return DataSourceBuilder.create().build();
@@ -31,36 +29,26 @@ public class DataSourceConfigure {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean("dynamicDataSource")
+    @Bean
     public DataSource dynamicDataSource() {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
-        dataSourceMap.put(DataSourceKey.st.name(),st());
-        dataSourceMap.put(DataSourceKey.jh.name(),jh());
+        dataSourceMap.put(DataSourceEnum.ST,this.st());
+        dataSourceMap.put(DataSourceEnum.JH,this.jh());
         dynamicRoutingDataSource.setTargetDataSources(dataSourceMap);
-        dynamicRoutingDataSource.setDefaultTargetDataSource(st());
-//        dynamicRoutingDataSource.afterPropertiesSet();
         return dynamicRoutingDataSource;
     }
 
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean() throws IOException {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        // Here to config mybatis
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.car.mapper.sys");
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("com/car/mapper/sys/*.xml"));
-        // Here is very important, if don't config this, will can't switch datasource
-        // put all datasource into SqlSessionFactoryBean, then will autoconfig SqlSessionFactory
-        sqlSessionFactoryBean.setDataSource(dynamicDataSource());
-        return sqlSessionFactoryBean;
-    }
-
     @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() throws IOException {
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("com.car.mapper.*");
-        return mapperScannerConfigurer;
+    public SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(this.dynamicDataSource());
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.car.domain");
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        sqlSessionFactoryBean.setConfiguration(configuration);
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*.xml"));
+        return sqlSessionFactoryBean;
     }
 
 }

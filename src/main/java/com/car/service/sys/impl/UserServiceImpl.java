@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(String dataSource) {
+//        DataSourceContextHolder.setDataSourceKey(dataSource);
         List<User> users = userMapper.selAllUser();
         System.out.println(users);
         return dataSource;

@@ -1,18 +1,20 @@
 package com.car.commons.config;
 
+import com.car.commons.enums.DataSourceEnum;
+
 public class DataSourceContextHolder {
 
-    private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<DataSourceEnum> CONTEXT_HOLDER = new ThreadLocal<>();
 
-    public static void setDataSourceKey(String key) {
-        CONTEXT_HOLDER.set(key);
+    public static void setDataSourceEnum(DataSourceEnum dataSourceEnum) {
+        CONTEXT_HOLDER.set(dataSourceEnum);
     }
 
-    public static String getDataSourceKey() {
+    public static DataSourceEnum getDataSourceEnum() {
         return CONTEXT_HOLDER.get();
     }
 
-    public static void clearDataSourceKey() {
+    public static void clearDataSourceEnum() {
         CONTEXT_HOLDER.remove();
     }
 
