@@ -9,10 +9,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println("拦截器");
         registry.addInterceptor(new SessionInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login/**")
-                .excludePathPatterns("/bind/**");
+                .excludePathPatterns("/drv/login/**")
+                .excludePathPatterns("/drv/bind/**");
     }
 }

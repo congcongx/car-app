@@ -6,5 +6,10 @@ public interface Const {
      */
     String DATASOURCE = "dataSource";
 
-    String SESSION_USER_KEY = "session_user";
+    String SESSION_KEY = "session_key";
+
+    Integer USEABLE_ACTIVE = 1; //激活
+
+    Integer USEABLE_FREEZE = 0; // 冻结
+
 }

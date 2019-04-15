@@ -3,6 +3,7 @@ package com.car.commons.config;
 
 import com.car.commons.constants.Const;
 import com.car.commons.enums.DataSourceEnum;
+import com.car.domain.sys.Drv;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Aspect
 @Component
@@ -28,7 +31,7 @@ public class DynamicDataSourceAspect {
     public void aspect(){ }
 
     @Before("aspect()")
-    public void switchDataSource(JoinPoint joinPoint) {
+    public void switchDataSource(JoinPoint joinPoint) throws Exception {
         String methodName = joinPoint.getSignature().getName();
         Boolean isLoginMethod = isLoginMethod(methodName);
         if(isLoginMethod) {
@@ -36,15 +39,24 @@ public class DynamicDataSourceAspect {
             for(int i = 0; i <parameterNames.length; i++) {
                 if(Const.DATASOURCE.equals(parameterNames[i])){
                     String dataSource = (String) joinPoint.getArgs()[i];
-                    for(DataSourceEnum dataSourceEnum: DataSourceEnum.values()) {
-                        if (dataSourceEnum.name().equals(dataSource)) {
-                            DataSourceContextHolder.setDataSourceEnum(dataSourceEnum);
-                            return;
-                        }
-                    }
+                    DataSourceContextHolder.setDataSourceEnum(DataSourceEnum.valueOf(dataSource));
+                    return;
                 }
             }
         }
+
+       Drv drv = (Drv) ((ServletRequestAttributes)RequestContextHolder
+                .getRequestAttributes())
+                .getRequest()
+                .getSession()
+                .getAttribute(Const.SESSION_KEY);
+
+        if(drv ==null) {
+            throw new Exception("非法请求");
+        }
+
+        DataSourceContextHolder.setDataSourceEnum(DataSourceEnum.valueOf(drv.getDataSource()));
+
     }
 
 

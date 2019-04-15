@@ -15,3 +15,7 @@ spring:
         password: 123456
         username: root
         port: 3306
+
+wx:
+  appid: wx0e36f3629b4822e2
+  secret: 08162a25e3d76066c5f14af2479b459a
