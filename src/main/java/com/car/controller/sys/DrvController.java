@@ -23,7 +23,7 @@ public class DrvController {
     }
 
     @RequestMapping("/bind")
-    public Result bind(@RequestBody Drv drv,HttpServletRequest request) {
+    public Result bind(@RequestBody Drv drv,HttpServletRequest request) throws Exception {
         return drvService.bind(drv,drv.getDataSource());
     }
 }

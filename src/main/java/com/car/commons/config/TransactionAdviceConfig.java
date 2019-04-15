@@ -7,18 +7,27 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
-@Aspect("2")
+@Aspect
+@Order(2)
 @Configuration
 public class TransactionAdviceConfig {
 
     @Autowired
-    private PlatformTransactionManager transactionManager;
+    private DataSourceConfigure dataSourceConfigure;
+
+    @Bean
+    public DataSourceTransactionManager dataSourceTransactionManager(){
+        DataSourceTransactionManager dtm = new DataSourceTransactionManager();
+        dtm.setDataSource(dataSourceConfigure.dynamicDataSource());
+        return dtm;
+    }
 
     @Bean
     public TransactionInterceptor txAdvice() {
@@ -44,8 +53,9 @@ public class TransactionAdviceConfig {
         source.addTransactionalMethod("list*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("count*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("is*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("bind*", txAttr_REQUIRED);
         source.addTransactionalMethod("*", txAttr_REQUIRED);
-        return new TransactionInterceptor(transactionManager, source);
+        return new TransactionInterceptor(dataSourceTransactionManager(), source);
     }
 
     @Bean
@@ -54,5 +64,6 @@ public class TransactionAdviceConfig {
         pointcut.setExpression("execution( * com.car.service..* (..) )");
         return new DefaultPointcutAdvisor(pointcut, txAdvice());
     }
+
 
 }

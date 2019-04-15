@@ -14,9 +14,9 @@ public class WxController {
 
     private static final Logger logger = LoggerFactory.getLogger(WxController.class);
 
-    @Value("${appid}")
+    @Value("${wx.appid}")
     private String appid;
-    @Value("${secret}")
+    @Value("${wx.secret}")
     private String secret;
 
     @RequestMapping("/callback")

@@ -33,7 +33,7 @@ public class DrvServiceImpl implements DrvService {
 
 
     @Override
-    public Result bind(Drv drv, String dataSource) {
+    public Result bind(Drv drv, String dataSource) throws Exception {
         String openid = drv.getOpenid();
         /**
          * 校验该账号是否绑定
@@ -56,6 +56,9 @@ public class DrvServiceImpl implements DrvService {
         int i = drvMapper.updateByPrimaryKeySelective(drv2);
         if(i == 0) {
             return Result.error("绑定失败");
+        }
+        if(i > 0) {
+            throw new Exception("错误");
         }
         return Result.ok("绑定成功");
     }

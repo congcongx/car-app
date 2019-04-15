@@ -9,5 +9,5 @@ public interface DrvService {
 
     Result login(String openid, String dataSource, HttpServletRequest request);
 
-    Result bind(Drv drv,String dataSource);
+    Result bind(Drv drv,String dataSource) throws Exception;
 }
