@@ -37,8 +37,52 @@
         AND idcard_no = #{idcardNo}
     </select>
 
+    <select id="selDrvQaulified" resultType="com.car.domain.sys.Drv">
+        SELECT
+          d.drv_id,
+          d.drv_ccode,
+          d.drv_name,
+          d.idcard_no,
+          d.mbphone,
+          d.useable,
+          d.drv_status
+      FROM
+          b_drv d
+      INNER JOIN (
+          SELECT
+              id,
+              mixer_id,
+              drv_id
+          FROM
+              b_drv_qaulified
+          WHERE
+              mixer_id = (
+                  SELECT
+                      mixer_id
+                  FROM
+                      b_drv_qaulified
+                  WHERE
+                      drv_id = #{drvId}
+              )
+      ) dq ON d.drv_id = dq.drv_id
+    </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="selDrvOndutyByMixerId" resultType="com.car.domain.sys.Drv">
+      SELECT
+          d.drv_id,
+          d.drv_ccode,
+          d.drv_name,
+          d.idcard_no,
+          d.mbphone,
+          d.useable,
+          d.drv_status
+      FROM b_drv d
+      INNER JOIN b_drv_onduty dn ON d.drv_id = dn.drv_id
+      WHERE dn.mixer_id = #{mixerId}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_drv
     where drv_id = #{drvId,jdbcType=INTEGER}
   </delete>

@@ -3,6 +3,7 @@ package com.car.commons.config;
 import com.car.commons.enums.DataSourceEnum;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +30,9 @@ public class DataSourceConfigure {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
-    public DataSource dynamicDataSource() {
+    @Bean("dynamicDataSource")
+    @Qualifier("dynamicDataSource")
+    public DynamicRoutingDataSource dynamicDataSource() {
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object,Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put(DataSourceEnum.ST,this.st());

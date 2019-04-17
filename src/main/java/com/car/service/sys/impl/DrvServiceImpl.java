@@ -31,7 +31,6 @@ public class DrvServiceImpl implements DrvService {
         return Result.ok("登录成功");
     }
 
-
     @Override
     public Result bind(Drv drv, String dataSource) throws Exception {
         String openid = drv.getOpenid();
@@ -61,5 +60,10 @@ public class DrvServiceImpl implements DrvService {
             throw new Exception("错误");
         }
         return Result.ok("绑定成功");
+    }
+
+    @Override
+    public Drv findDrvOndutyByMixerId(Integer mixerId) {
+        return drvMapper.selDrvOndutyByMixerId(mixerId);
     }
 }
