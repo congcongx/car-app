@@ -33,5 +33,11 @@ public interface MixerService {
      */
     Mixer findMixerByDrvQaulified(Integer drvId);
 
+    /**
+     * 查询搅拌车队列信息
+     * @return
+     */
+    Map<String,Object> findMixerQueue(Drv drv);
+
 
 }

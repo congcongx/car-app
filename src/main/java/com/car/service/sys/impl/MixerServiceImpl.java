@@ -1,6 +1,9 @@
 package com.car.service.sys.impl;
 
+import com.car.commons.constants.Const;
+import com.car.domain.sys.Dlv;
 import com.car.domain.sys.Drv;
+import com.car.domain.sys.Line;
 import com.car.domain.sys.Mixer;
 import com.car.mapper.sys.DrvMapper;
 import com.car.mapper.sys.MixerMapper;
@@ -57,6 +60,45 @@ public class MixerServiceImpl implements MixerService {
     @Override
     public Mixer findMixerByDrvQaulified(Integer drvId) {
         return mixerMapper.selMixerByDrvQaulified(drvId);
+    }
+
+    @Override
+    public Map<String, Object> findMixerQueue(Drv drv) {
+        Map<String, Object> map = new HashMap<>();
+
+        /**
+         * 查询所有生产线
+         */
+        List<Line> lines = mixerMapper.selAllLine();
+        /**
+         * 查询生产线上的搅拌车
+         */
+        List<Dlv> dlvs = mixerMapper.selLineMixer();
+
+        /**
+         * 遍历生产线下面的车辆
+         */
+        for (Line line : lines) {
+            boolean isFirst = true;
+            for (Dlv dlv : dlvs) {
+                if (line.getLineId().equals(dlv.getLineId())) {
+                    //生产状态
+                    if (Const.DLV_START.equals(dlv.getDlvStatus())) {
+                        line.getProductMixerFcode().add(dlv.getMixerFcode());
+                        continue;
+                    }
+                    //第一条为准备状态
+                    if (isFirst) {
+                        line.setReadyMixerFcode(dlv.getMixerFcode());
+                        isFirst = false;
+                        continue;
+                    }
+                    line.getWaitMixerFcode().add(dlv.getMixerFcode());
+                }
+            }
+        }
+        return  null;
+
     }
 
 }

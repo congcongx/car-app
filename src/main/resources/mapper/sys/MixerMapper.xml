@@ -20,6 +20,15 @@
     mixer_id, mixer_fcode, mixer_ccode, plate_no, cur_load, net, bridge, reg_date, owner_code, 
     owner_name, useable, mixer_status, lately_dlv_id
   </sql>
+
+
+  <select id="selAllLine" resultType="com.car.domain.sys.Line">
+      SELECT
+        line_id,
+        line_name
+      FROM b_line
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -49,6 +58,35 @@
 
   <select id="insertDrvOnduty" resultType="int">
     INSERT INTO b_drv_onduty(mixer_id, drv_id) VALUES (#{mixerId},#{drvId})
+  </select>
+
+  <select id="selLineMixer" resultType="Dlv">
+      SELECT
+        d.mixer_fcode,
+        d.dlv_status,
+        d.line_id
+      FROM b_dlv d
+      INNER JOIN b_line l ON d.line_id = l.line_id
+      WHERE d.dlv_status IN (1,2,3)
+      ORDER BY d.dlv_status
+  </select>
+
+  <select id="selLineByMixerFcode" resultType="integer">
+      SELECT
+        line_id
+      FROM b_dlv
+      WHERE mixer_fcode = #{mixerFcode}
+  </select>
+
+  <select id="selDlvByDrvCcode" resultType="com.car.domain.sys.Dlv">
+      SELECT
+          mixer_fcode,
+          dlv_status,
+          plate_no,
+          line_id
+      FROM b_dlv
+      WHERE drv_ccode = #{drvCcode}
+      AND dlv_status IN (1,2,3)
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

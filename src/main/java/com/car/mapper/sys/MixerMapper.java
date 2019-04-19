@@ -1,6 +1,10 @@
 package com.car.mapper.sys;
 
+import com.car.domain.sys.Dlv;
+import com.car.domain.sys.Line;
 import com.car.domain.sys.Mixer;
+
+import java.util.List;
 
 public interface MixerMapper {
     int deleteByPrimaryKey(Integer mixerId);
@@ -26,4 +30,21 @@ public interface MixerMapper {
     int insertDrvOnduty(Integer mixerId,Integer drvId);
 
     int delDrvOnduty(Integer mixerId);
+
+    List<Line> selAllLine();
+
+    /**
+     * 查询生产线上的车辆
+     * @return
+     */
+    List<Dlv> selLineMixer();
+
+    /**
+     * 查询搅拌车所在生产线
+     * @param mixerFcode
+     * @return
+     */
+    Integer selLineByMixerFcode(String mixerFcode);
+
+    Dlv selDlvByDrvCcode(Integer drvCcode);
 }

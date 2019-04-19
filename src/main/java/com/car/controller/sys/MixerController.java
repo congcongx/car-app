@@ -22,7 +22,7 @@ public class MixerController {
     @Autowired
     private DrvService drvService;
     /**
-     * 查询车辆详情，准驾司机，当班司机
+     * 查询车辆详情，准驾 司机，当班司机
      * @return
      */
     @GetMapping("/findMixerInfo")
@@ -74,5 +74,15 @@ public class MixerController {
         return Result.error("操作失败");
     }
 
+
+    /**
+     * 查看车辆排队
+     * @return
+     */
+    @RequestMapping("/vehicleQueue")
+    public Result vehicleQueue(HttpServletRequest request) {
+        Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
+        return Result.ok(mixerService.findMixerQueue(drv.getDrvId()));
+    }
 
 }
