@@ -82,7 +82,7 @@ public class MixerController {
     @RequestMapping("/vehicleQueue")
     public Result vehicleQueue(HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
-        return Result.ok(mixerService.findMixerQueue(drv.getDrvId()));
+        return Result.ok(mixerService.findMixerQueue(drv));
     }
 
 }

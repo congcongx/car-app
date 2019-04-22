@@ -46,5 +46,10 @@ public interface MixerMapper {
      */
     Integer selLineByMixerFcode(String mixerFcode);
 
+    /**
+     *  根据司机云码查询发货单
+     * @param drvCcode
+     * @return
+     */
     Dlv selDlvByDrvCcode(Integer drvCcode);
 }

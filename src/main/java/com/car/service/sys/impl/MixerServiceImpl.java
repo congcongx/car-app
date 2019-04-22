@@ -66,6 +66,7 @@ public class MixerServiceImpl implements MixerService {
     public Map<String, Object> findMixerQueue(Drv drv) {
         Map<String, Object> map = new HashMap<>();
 
+
         /**
          * 查询所有生产线
          */
@@ -97,8 +98,40 @@ public class MixerServiceImpl implements MixerService {
                 }
             }
         }
-        return  null;
 
+        map.put("lines",lines);
+
+        /**
+         * 查询是否有发车的发货单
+         */
+        Dlv d = mixerMapper.selDlvByDrvCcode(drv.getDrvCcode());
+        /**
+         * 如果该司机有发货单
+         */
+        if(d != null) {
+            map.put("titleInfo",true);
+            map.put("lineMixer",d.getLineId()+"#"+d.getMixerFcode());
+            map.put("plateNo",d.getPlateNo());
+            /**
+             * 获取司机排队位置
+             */
+            for(Line line : lines) {
+                if(d.getLineId().equals(line.getLineId())) {
+                    if(line.getProductMixerFcode().contains(d.getMixerFcode())) {
+                        map.put("mixerIndex","当前排队：生产中");
+                    }
+                    if(d.getMixerFcode().equals(line.getReadyMixerFcode())) {
+                        map.put("mixerIndex","当前排队：准备中");
+                    }
+                    if(line.getWaitMixerFcode().contains(d.getMixerFcode())) {
+                        map.put("mixerIndex","当前排队：第"+ (line.getWaitMixerFcode().indexOf(d.getMixerFcode())+1) + "位");
+                    }
+                }
+            }
+        } else {
+            map.put("titleInfo",false);
+        }
+        return  map;
     }
 
 }
