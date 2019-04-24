@@ -68,7 +68,7 @@
       FROM b_dlv d
       INNER JOIN b_line l ON d.line_id = l.line_id
       WHERE d.dlv_status IN (1,2,3)
-      ORDER BY d.dlv_status
+      ORDER BY d.crt_time
   </select>
 
   <select id="selLineByMixerFcode" resultType="integer">

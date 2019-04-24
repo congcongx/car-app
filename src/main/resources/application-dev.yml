@@ -1,4 +1,15 @@
 spring:
+  rabbitmq:
+     host: 192.168.20.78
+     port: 5672
+     username: reindex
+     password: reindex
+     listener:
+       simple:
+         retry:
+           enabled: true
+           max-attempts: 5
+
   datasource:
     hikari:
       st:
@@ -15,6 +26,25 @@ spring:
         password: 123456
         username: root
         port: 3306
+      sd:
+        name: sd
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useUnicode\=true&amp;characterEncoding\=UTF-8
+        password: gerp
+        username: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
+        port: 3306
+
+mq:
+    config:
+        exchange: car.direct
+        queue:
+            send: car.send
+            send.routing.key: car.send.routing.key
+            cancel: car.cancel
+            cancel.routing.key: car.cancel.routing.key
+            ready: car.ready
+            ready.routing.key: car.ready.routing.key
+
 
 wx:
   appid: wx0e36f3629b4822e2
