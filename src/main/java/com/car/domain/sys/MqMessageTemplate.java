@@ -1,4 +1,4 @@
-package com.tongyun.mes.entity;
+package com.car.domain.sys;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 微信公众号司机消息模板
  */
-public class WxMessageTemplate implements Serializable {
+public class MqMessageTemplate implements Serializable {
 
     //司机唯一凭证
     private String openid;
@@ -21,7 +21,7 @@ public class WxMessageTemplate implements Serializable {
     //工厂简称
     private String facShort;
     //时间
-    private Date time;
+    private Date  time;
 
     public String getOpenid() {
         return openid;
@@ -81,7 +81,7 @@ public class WxMessageTemplate implements Serializable {
 
     @Override
     public String toString() {
-        return "WxMessageTemplate{" +
+        return "MqMessageTemplate{" +
                 "openid='" + openid + '\'' +
                 ", lineName='" + lineName + '\'' +
                 ", dlvId=" + dlvId +

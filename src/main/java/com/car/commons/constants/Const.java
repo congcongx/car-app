@@ -17,4 +17,9 @@ public interface Const {
      */
     Integer DLV_START = 3; //开始生产
 
+    /**
+     * 微信公众账好ACCESS_TOKEN
+     */
+    String WX_ACCESS_TOKEN_KEY = "WX:ACCESS:TOKEN:KEY";
+
 }
