@@ -41,6 +41,22 @@ public class MixerServiceImpl implements MixerService {
         Drv drvOnduty = drvMapper.selDrvOndutyByMixerId(mixer.getMixerId());
 
         Map map = new HashMap<String,Object>();
+
+        //如果存在当班司机
+        if(drvOnduty != null) {
+            //如果本人是当班司机
+            if(drvOnduty.getDrvId().equals(drv.getDrvId())) {
+                map.put("onDutyBtn",false);
+                map.put("offDutyBtn",true);
+            } else {
+                map.put("onDutyBtn",false);
+                map.put("offDutyBtn",false);
+            }
+        } else {
+            map.put("onDutyBtn",true);
+            map.put("offDutyBtn",false);
+        }
+
         map.put("drvQaulifeds",drvQaulifeds);
         map.put("mixer",mixer);
         map.put("drvOnduty",drvOnduty);

@@ -19,9 +19,9 @@ import java.util.Map;
 
 @Component
 @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(value = "${mq.config.queue.send}",autoDelete="false"),
+        value = @Queue(value = "${mq.config.queue.cancel}",autoDelete="false"),
         exchange = @Exchange(value = "${mq.config.exchange}",type = ExchangeTypes.DIRECT),
-        key = "${mq.config.queue.send.routing.key}"
+        key = "${mq.config.queue.cancel.routing.key}"
 ))
 public class CarCancelReceiver {
 

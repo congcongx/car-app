@@ -28,13 +28,13 @@
       WHERE openid = #{openid}
   </select>
 
-    <select id="selDrvByNameAndIdcard" resultType="Drv"
+    <select id="selDrvByNameAndPhone" resultType="Drv"
             parameterType="Drv">
         SELECT
           <include refid="Base_Column_List"/>
         FROM b_drv
         WHERE drv_name = #{drvName}
-        AND idcard_no = #{idcardNo}
+        AND mbphone = #{mbphone}
     </select>
 
     <select id="selDrvQaulified" resultType="com.car.domain.sys.Drv">

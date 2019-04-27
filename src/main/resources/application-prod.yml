@@ -1,7 +1,57 @@
-#spring:
- # datasource:
-  #  st:
-   #   driver-class-name: com.mysql.cj.jdbc.Driver
-    #  jdbc-url: jdbc:mysql://localhost:3306/st?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
-     # password: 123456
-      #username: root
+spring:
+  rabbitmq:
+     host: 139.129.252.208
+     port: 5672
+     username: reindex
+     password: fH7MtSCKQeY
+     listener:
+       simple:
+         retry:
+           enabled: true
+           max-attempts: 5
+
+  datasource:
+    hikari:
+      st:
+        name: st
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/st?useSSL=false
+        password: 123456
+        username: root
+        port: 3306
+      jh:
+        name: jh
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/jh?useSSL=false
+        password: 123456
+        username: root
+        port: 3306
+      sd:
+        name: sd
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useUnicode\=true&amp;characterEncoding\=UTF-8
+        password: gerp
+        username: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
+        port: 3306
+  redis:
+    host: 118.190.71.200
+    port: 6381
+    password: abcdfu5Ymkr8KihRXcGzeqPxjAot9L7np
+    database: 14
+
+mq:
+    config:
+        exchange: car.direct
+        queue:
+            send: car.send
+            send.routing.key: car.send.routing.key
+            cancel: car.cancel
+            cancel.routing.key: car.cancel.routing.key
+            ready: car.ready
+            ready.routing.key: car.ready.routing.key
+
+
+wx:
+  appid: wx0e36f3629b4822e2
+  secret: 08162a25e3d76066c5f14af2479b459a
+  templateId: yGkGgR0u3nj1X5p6ZfamN2fMc9ts4hDUyjHDd6hEQ1k

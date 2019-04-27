@@ -27,7 +27,7 @@ public interface DrvMapper {
     /**
      * 根据身份证和姓名查询司机
      */
-    Drv selDrvByNameAndIdcard(Drv drv);
+    Drv selDrvByNameAndPhone(Drv drv);
 
     /**
      * 根据司机查询搅拌车的准驾司机

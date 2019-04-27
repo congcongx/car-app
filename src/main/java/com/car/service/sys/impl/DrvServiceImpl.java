@@ -7,6 +7,7 @@ import com.car.mapper.sys.DrvMapper;
 import com.car.service.sys.DrvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +32,7 @@ public class DrvServiceImpl implements DrvService {
         return Result.ok("登录成功");
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result bind(Drv drv, String dataSource) throws Exception {
         String openid = drv.getOpenid();
@@ -44,9 +46,9 @@ public class DrvServiceImpl implements DrvService {
         /**
          * 校验身份证和姓名是否正确
          */
-        Drv drv2 = drvMapper.selDrvByNameAndIdcard(drv);
+        Drv drv2 = drvMapper.selDrvByNameAndPhone(drv);
         if(drv2 == null) {
-            return Result.error("请检查身份证和姓名是否正确");
+            return Result.error("请检查电话和姓名是否正确");
         }
         /**
          * 用户绑定微信号
@@ -55,9 +57,6 @@ public class DrvServiceImpl implements DrvService {
         int i = drvMapper.updateByPrimaryKeySelective(drv2);
         if(i == 0) {
             return Result.error("绑定失败");
-        }
-        if(i > 0) {
-            throw new Exception("错误");
         }
         return Result.ok("绑定成功");
     }
