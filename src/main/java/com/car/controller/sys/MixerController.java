@@ -26,9 +26,10 @@ public class MixerController {
      * @return
      */
     @GetMapping("/findMixerInfo")
-    public Result findMixerInfo(HttpServletRequest request) {
+    public Result findMixerInfo(Integer mixerId,
+            HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
-        return Result.ok(mixerService.findMixerInfo(drv));
+        return Result.ok(mixerService.findMixerInfo(drv,mixerId));
     }
 
     /**
@@ -37,16 +38,16 @@ public class MixerController {
      * @return
      */
     @RequestMapping("/onDuty")
-    public Result onDuty(HttpServletRequest request) {
+    public Result onDuty(Integer mixerId,HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
-        Mixer mixer = mixerService.findMixerByDrvQaulified(drv.getDrvId());
+        Mixer mixer = mixerService.findMixerById(mixerId);
         Drv drvOnduty = drvService.findDrvOndutyByMixerId(mixer.getMixerId());
         if(drvOnduty != null) {
             return Result.ok("当前车辆当班司机为："+ drvOnduty.getDrvName());
         }
         int i = mixerService.onDuty(mixer.getMixerId(), drv.getDrvId());
         if(i > 0) {
-            Result.ok("接班成功");
+            return Result.ok("接班成功");
         }
         return Result.error("操作失败");
     }
@@ -69,7 +70,7 @@ public class MixerController {
         }
         int i = mixerService.offDuty(drv);
         if(i > 0) {
-            Result.ok("交班成功");
+           return Result.ok("交班成功");
         }
         return Result.error("操作失败");
     }

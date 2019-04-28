@@ -63,6 +63,8 @@
                       b_drv_qaulified
                   WHERE
                       drv_id = #{drvId}
+                  AND
+                      mixer_id = #{mixerId}
               )
       ) dq ON d.drv_id = dq.drv_id
     </select>
@@ -82,7 +84,7 @@
   </select>
 
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_drv
     where drv_id = #{drvId,jdbcType=INTEGER}
   </delete>

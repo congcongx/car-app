@@ -32,6 +32,7 @@ public class WxTask {
             sb.append(appid).append("&secret=").append(secret);
             String s = HttpClientUtil.doGet(sb.toString());
             AccessToken accessToken = JsonUtil.jsonStrToObj(s, AccessToken.class);
+
             redisTemplate.opsForValue().set(Const.WX_ACCESS_TOKEN_KEY,accessToken.getAccess_token(),accessToken.getExpires_in(),TimeUnit.SECONDS);
         }
     }

@@ -25,20 +25,24 @@ public class MixerServiceImpl implements MixerService {
     private DrvMapper drvMapper;
 
     @Override
-    public Map<String, Object> findMixerInfo(Drv drv) {
+    public Map<String, Object> findMixerInfo(Drv drv,Integer mixerId) {
         /**
          * 查询准驾司机
          */
-        List<Drv> drvQaulifeds = drvMapper.selDrvQaulified(drv.getDrvId());
+        List<Drv> drvQaulifeds = drvMapper.selDrvQaulified(drv.getDrvId(),mixerId);
 
         /**
          * 查询搅拌车详情
          */
-        Mixer mixer = mixerMapper.selMixerByDrvQaulified(drv.getDrvId());
+        Mixer mixer = mixerMapper.selectByPrimaryKey(mixerId);
+
         /**
          * 查询当班司机
          */
-        Drv drvOnduty = drvMapper.selDrvOndutyByMixerId(mixer.getMixerId());
+        Drv drvOnduty = null;
+        if(mixer != null) {
+            drvOnduty = drvMapper.selDrvOndutyByMixerId(mixer.getMixerId());
+        }
 
         Map map = new HashMap<String,Object>();
 
@@ -128,6 +132,7 @@ public class MixerServiceImpl implements MixerService {
             map.put("titleInfo",true);
             map.put("lineMixer",d.getLineId()+"#"+d.getMixerFcode());
             map.put("plateNo",d.getPlateNo());
+            map.put("mixerFcode",d.getMixerFcode());
             /**
              * 获取司机排队位置
              */
@@ -148,6 +153,16 @@ public class MixerServiceImpl implements MixerService {
             map.put("titleInfo",false);
         }
         return  map;
+    }
+
+    @Override
+    public List<Mixer> selQaulifiedMixerByDrvId(Integer drvId) {
+        return mixerMapper.selQaulifiedMixerByDrvId(drvId);
+    }
+
+    @Override
+    public Mixer findMixerById(Integer mixerId) {
+        return mixerMapper.selectByPrimaryKey(mixerId);
     }
 
 }

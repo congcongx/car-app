@@ -2,20 +2,33 @@ package com.car.service.sys.impl;
 
 import com.car.commons.constants.Const;
 import com.car.commons.pojo.Result;
+import com.car.commons.util.HttpClientUtil;
 import com.car.domain.sys.Drv;
+import com.car.domain.sys.Mixer;
 import com.car.mapper.sys.DrvMapper;
 import com.car.service.sys.DrvService;
+import com.car.service.sys.MixerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class DrvServiceImpl implements DrvService {
 
     @Autowired
     private DrvMapper drvMapper;
+
+    @Autowired
+    private MixerService mixerService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public Result login(String openid, String dataSource, HttpServletRequest request) {
@@ -29,7 +42,21 @@ public class DrvServiceImpl implements DrvService {
         }
         drv.setDataSource(dataSource);
         request.getSession().setAttribute(Const.SESSION_KEY,drv);
-        return Result.ok("登录成功");
+
+
+        String accessToken = redisTemplate.opsForValue().get(Const.WX_ACCESS_TOKEN_KEY);
+
+        StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/user/info?access_token=");
+        sb.append(accessToken).append("&openid=").append(openid).append("&lang=zh_CN");
+
+        String userInfo = HttpClientUtil.doGet(sb.toString());
+        Map<String,Object> map = new HashMap<>();
+
+        List<Mixer> mixers = mixerService.selQaulifiedMixerByDrvId(drv.getDrvId());
+        map.put("mixers",mixers);
+        map.put("userInfo",userInfo);
+
+        return Result.ok(map);
     }
 
     @Transactional(rollbackFor = Exception.class)

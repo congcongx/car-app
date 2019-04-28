@@ -52,4 +52,11 @@ public interface MixerMapper {
      * @return
      */
     Dlv selDlvByDrvCcode(Integer drvCcode);
+
+    /**
+     * 根据司机查询可以驾驶的搅拌车
+     * @param drvId
+     * @return
+     */
+    List<Mixer> selQaulifiedMixerByDrvId(Integer drvId);
 }

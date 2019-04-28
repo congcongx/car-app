@@ -55,3 +55,4 @@ wx:
   appid: wx0e36f3629b4822e2
   secret: 08162a25e3d76066c5f14af2479b459a
   templateId: yGkGgR0u3nj1X5p6ZfamN2fMc9ts4hDUyjHDd6hEQ1k
+  redirectUrl: http%3A%2F%2Fpublic.weixin.reindex.cn%2Fcallback

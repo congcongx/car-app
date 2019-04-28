@@ -83,10 +83,22 @@
           mixer_fcode,
           dlv_status,
           plate_no,
-          line_id
+          line_id,
+          line_name
       FROM b_dlv
       WHERE drv_ccode = #{drvCcode}
       AND dlv_status IN (1,2,3)
+  </select>
+
+  <select id="selQaulifiedMixerByDrvId" resultType="com.car.domain.sys.Mixer">
+      SELECT
+          m.mixer_id,
+          m.mixer_fcode,
+          m.plate_no
+      FROM b_drv_qaulified dq
+      INNER JOIN b_mixer m ON dq.mixer_id = m.mixer_id
+      WHERE dq.drv_id = #{drvId}
+      AND m.useable = 1
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

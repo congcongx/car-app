@@ -6,9 +6,20 @@ spring:
    time-zone: GMT+8
  aop:
    proxy-target-class: true
+ thymeleaf:
+   cache: false
+   mode: HTML
+   prefix: classpath:/templates
+   encoding: UTF-8
+   servlet:
+     content-type: text/html
+ resources:
+   static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/templates/
 
 server:
   port: 9090
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.car.mapper.sys;
 
 import com.car.domain.sys.Drv;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface DrvMapper {
      * @param drvId
      * @return
      */
-    List<Drv> selDrvQaulified(Integer drvId);
+    List<Drv> selDrvQaulified(@Param("drvId") Integer drvId, @Param("mixerId") Integer mixerId);
 
     /**
      * 根据搅拌车查询准驾司机
@@ -42,4 +43,6 @@ public interface DrvMapper {
      * @return
      */
     Drv selDrvOndutyByMixerId(Integer mixerId);
+
+
 }
