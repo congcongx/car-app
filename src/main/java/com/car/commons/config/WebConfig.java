@@ -12,6 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/drv/login/**")
-                .excludePathPatterns("/drv/bind/**");
+                .excludePathPatterns("/drv/bind/**")
+                .excludePathPatterns("/callback/**");
     }
 }
