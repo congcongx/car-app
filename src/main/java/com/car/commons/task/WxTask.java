@@ -4,6 +4,8 @@ import com.car.commons.constants.Const;
 import com.car.commons.util.HttpClientUtil;
 import com.car.commons.util.JsonUtil;
 import com.car.domain.sys.AccessToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,6 +19,9 @@ public class WxTask {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    private static final Logger logger = LoggerFactory.getLogger(WxTask.class);
+
 
     @Value("${wx.appid}")
     private String appid;
@@ -32,7 +37,6 @@ public class WxTask {
             sb.append(appid).append("&secret=").append(secret);
             String s = HttpClientUtil.doGet(sb.toString());
             AccessToken accessToken = JsonUtil.jsonStrToObj(s, AccessToken.class);
-
             redisTemplate.opsForValue().set(Const.WX_ACCESS_TOKEN_KEY,accessToken.getAccess_token(),accessToken.getExpires_in(),TimeUnit.SECONDS);
         }
     }

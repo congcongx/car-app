@@ -36,27 +36,7 @@
     where mixer_id = #{mixerId,jdbcType=INTEGER}
   </select>
 
-  <select id="selMixerByDrvQaulified" resultType="com.car.domain.sys.Mixer">
-      SELECT
-        m.mixer_id,
-        m.mixer_ccode,
-        m.mixer_fcode,
-        m.plate_no,
-        m.cur_load,
-        m.net,
-        m.bridge,
-        m.reg_date,
-        m.owner_code,
-        m.owner_name,
-        m.useable,
-        m.mixer_status,
-        m.lately_dlv_id
-      FROM b_mixer m
-      INNER JOIN b_drv_qaulified dq ON m.mixer_id = dq.mixer_id
-      WHERE dq.drv_id = #{drvId}
-  </select>
-
-  <select id="insertDrvOnduty" resultType="int">
+  <select id="insertDrvOnduty" >
     INSERT INTO b_drv_onduty(mixer_id, drv_id) VALUES (#{mixerId},#{drvId})
   </select>
 
@@ -83,8 +63,7 @@
           mixer_fcode,
           dlv_status,
           plate_no,
-          line_id,
-          line_name
+          line_id
       FROM b_dlv
       WHERE drv_ccode = #{drvCcode}
       AND mixer_fcode = #{mixerFcode}
@@ -108,6 +87,7 @@
   </delete>
   <delete id="delDrvOnduty">
      DELETE FROM b_drv_onduty WHERE mixer_id = #{mixerId}
+     AND drv_id = #{drvId}
   </delete>
   <insert id="insert" parameterType="com.car.domain.sys.Mixer" >
     insert into b_mixer (mixer_id, mixer_fcode, mixer_ccode, 

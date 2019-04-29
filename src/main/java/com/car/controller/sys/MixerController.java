@@ -46,11 +46,9 @@ public class MixerController {
         if(drvOnduty != null) {
             return Result.ok("当前车辆当班司机为："+ drvOnduty.getDrvName());
         }
-        int i = mixerService.onDuty(mixer.getMixerId(), drv.getDrvId());
-        if(i > 0) {
-            return Result.ok("接班成功");
-        }
-        return Result.error("操作失败");
+        mixerService.onDuty(mixer.getMixerId(), drv.getDrvId());
+
+        return Result.ok("接班成功");
     }
 
     /**
@@ -69,7 +67,7 @@ public class MixerController {
         if(!drv.getDrvId().equals(drvOnduty.getDrvId())) {
             return Result.ok("您当前不是当班司机");
         }
-        int i = mixerService.offDuty(drv);
+        int i = mixerService.offDuty(drv.getDrvId(),mixerId);
         if(i > 0) {
            return Result.ok("交班成功");
         }
@@ -85,6 +83,16 @@ public class MixerController {
     public Result vehicleQueue(@PathVariable Integer mixerId, HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
         return Result.ok(mixerService.findMixerQueue(drv,mixerId));
+    }
+
+
+    /**
+     * 查询所有生产线信息
+     * @return
+     */
+    @GetMapping("/findAllLine")
+    public Result findAllLine() {
+        return Result.ok(mixerService.findAllLine());
     }
 
 }

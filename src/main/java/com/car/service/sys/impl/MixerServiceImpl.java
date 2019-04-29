@@ -35,7 +35,6 @@ public class MixerServiceImpl implements MixerService {
          * 查询搅拌车详情
          */
         Mixer mixer = mixerMapper.selectByPrimaryKey(mixerId);
-
         /**
          * 查询当班司机
          */
@@ -68,18 +67,13 @@ public class MixerServiceImpl implements MixerService {
     }
 
     @Override
-    public int onDuty(Integer mixerId,Integer drvId) {
-        return mixerMapper.insertDrvOnduty(mixerId,drvId);
+    public void onDuty(Integer mixerId,Integer drvId) {
+          this.mixerMapper.insertDrvOnduty(mixerId,drvId);
     }
 
     @Override
-    public int offDuty(Drv drv) {
-        return mixerMapper.delDrvOnduty(drv.getDrvId());
-    }
-
-    @Override
-    public Mixer findMixerByDrvQaulified(Integer drvId) {
-        return mixerMapper.selMixerByDrvQaulified(drvId);
+    public int offDuty(Integer drvId,Integer mixerId) {
+        return mixerMapper.delDrvOnduty(drvId,mixerId);
     }
 
     @Override
@@ -138,19 +132,20 @@ public class MixerServiceImpl implements MixerService {
             map.put("lineMixer",d.getLineId()+"#"+d.getMixerFcode());
             map.put("plateNo",d.getPlateNo());
             map.put("mixerFcode",d.getMixerFcode());
+            map.put("lineId",d.getLineId());
             /**
              * 获取司机排队位置
              */
             for(Line line : lines) {
                 if(d.getLineId().equals(line.getLineId())) {
                     if(line.getProductMixerFcode().contains(d.getMixerFcode())) {
-                        map.put("mixerIndex","当前排队：生产中");
+                        map.put("mixerIndex","当前排队:生产中");
                     }
                     if(d.getMixerFcode().equals(line.getReadyMixerFcode())) {
-                        map.put("mixerIndex","当前排队：准备中");
+                        map.put("mixerIndex","当前排队:准备中");
                     }
                     if(line.getWaitMixerFcode().contains(d.getMixerFcode())) {
-                        map.put("mixerIndex","当前排队：第"+ (line.getWaitMixerFcode().indexOf(d.getMixerFcode())+1) + "位");
+                        map.put("mixerIndex","当前排队:第"+ (line.getWaitMixerFcode().indexOf(d.getMixerFcode())+1) + "位");
                     }
                 }
             }
@@ -168,6 +163,12 @@ public class MixerServiceImpl implements MixerService {
     @Override
     public Mixer findMixerById(Integer mixerId) {
         return mixerMapper.selectByPrimaryKey(mixerId);
+    }
+
+
+    @Override
+    public List<Line> findAllLine() {
+        return mixerMapper.selAllLine();
     }
 
 }

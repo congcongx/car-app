@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/drv/login/**")
                 .excludePathPatterns("/drv/bind/**")
-                .excludePathPatterns("/callback/**");
+                .excludePathPatterns("/callback/**")
+                .excludePathPatterns("/web/**");
     }
 }

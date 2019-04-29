@@ -1,9 +1,9 @@
 spring:
   rabbitmq:
-     host: 139.129.252.208
+     host: 192.168.9.100
      port: 5672
      username: reindex
-     password: fH7MtSCKQeY
+     password: reindex
      listener:
        simple:
          retry:
@@ -15,28 +15,35 @@ spring:
       st:
         name: st
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/st?useSSL=false
-        password: 123456
-        username: root
+        jdbc-url: jdbc:mysql://192.168.9.100:3306/tongyun_mes?useSSL=false
+        password: fhieukzjdhwuieurwuiery19dakjdJHNMJQ
+        username: gerp_mes
         port: 3306
       jh:
         name: jh
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/jh?useSSL=false
-        password: 123456
-        username: root
+        jdbc-url: jdbc:mysql://192.168.9.45:3306/tongyun_mes?useSSL=false
+        password: tongyun2017
+        username: shengtian
         port: 3306
       sd:
         name: sd
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useSSL=false
-        username: gerp
-        password: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
+        jdbc-url: jdbc:mysql://192.168.9.32:3306/tongyun_mes?useSSL=false
+        username: shengtian
+        password: evMyV0X5EhlPS4545BmaNYmE
+        port: 3306
+      sda:
+        name: sd
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.1.100:3306/tongyun_mes?useSSL=false
+        username: shengtian
+        password: evMyV0X5EhlPS4545BmaNYmE
         port: 3306
   redis:
-    host: 118.190.71.200
-    port: 6381
-    password: abcdfu5Ymkr8KihRXcGzeqPxjAot9L7np
+    host: 192.168.9.100
+    port: 6379
+    password: wP35CBv7HrxyYDkfeqUqbfKSMcsQWoXNT
     database: 14
 
 mq:
@@ -55,4 +62,3 @@ wx:
   appid: wx0e36f3629b4822e2
   secret: 08162a25e3d76066c5f14af2479b459a
   templateId: yGkGgR0u3nj1X5p6ZfamN2fMc9ts4hDUyjHDd6hEQ1k
-  redirectUrl: http%3A%2F%2Fpublic.weixin.reindex.cn%2Fcallback

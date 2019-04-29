@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.car.mapper.sys.DlvHisMapper" >
+
+    <select id="countTransVolsByDay" resultType="map">
+        SELECT
+            DATE_FORMAT(dh.crt_time, '%Y-%m-%d') crtTime,
+            SUM(dh.trans_vol) transVols
+        FROM
+            (
+                <foreach collection="nums" item="num" separator="UNION ALL">
+                  SELECT
+                    crt_time,
+                    trans_vol
+                  FROM
+                    b_dlv_his_${num}
+                  WHERE
+                   crt_time > #{weekTime}
+                  AND crt_time &lt; #{nextDay}
+                  AND drv_ccode = #{drvCcode}
+                </foreach>
+            ) dh
+        GROUP BY
+          crtTime
+        ORDER BY
+          crtTime
+    </select>
+
+    <select id="countTransVolsByMonth" resultType="map">
+        SELECT
+            DATE_FORMAT(dh.crt_time, '%Y-%m') crtTime,
+            SUM(dh.trans_vol) transVols
+        FROM
+           (
+            <foreach collection="nums" item="num" separator="UNION ALL">
+                SELECT
+                    crt_time,
+                    trans_vol
+                FROM
+                   b_dlv_his_${num}
+                WHERE
+                  crt_time > #{sixMonth}
+                AND crt_time &lt; #{nextMonth}
+                AND drv_ccode = #{drvCcode}
+            </foreach>
+            ) dh
+        GROUP BY
+            crtTime
+        ORDER BY
+            crtTime
+    </select>
+</mapper>

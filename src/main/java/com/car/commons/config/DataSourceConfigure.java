@@ -36,6 +36,7 @@ public class DataSourceConfigure {
         return DataSourceBuilder.create().build();
     }
 
+
     @Bean("dynamicDataSource")
     @Qualifier("dynamicDataSource")
     public DynamicRoutingDataSource dynamicDataSource() {

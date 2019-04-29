@@ -27,4 +27,6 @@ public class DrvController {
     public Result bind(@RequestBody Drv drv,HttpServletRequest request) throws Exception {
         return drvService.bind(drv,drv.getDataSource());
     }
+
+
 }

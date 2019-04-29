@@ -3,6 +3,7 @@ package com.car.mapper.sys;
 import com.car.domain.sys.Dlv;
 import com.car.domain.sys.Line;
 import com.car.domain.sys.Mixer;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,17 +20,9 @@ public interface MixerMapper {
 
     int updateByPrimaryKey(Mixer record);
 
-    /**
-     * 根据准驾司机查询搅拌车详情
-     * @param drvId
-     * @return
-     */
-    Mixer selMixerByDrvQaulified(Integer drvId);
+    void insertDrvOnduty(@Param("mixerId") Integer mixerId,@Param("drvId") Integer drvId);
 
-
-    int insertDrvOnduty(Integer mixerId,Integer drvId);
-
-    int delDrvOnduty(Integer mixerId);
+    int delDrvOnduty(@Param("drvId") Integer drvId,@Param("mixerId") Integer mixerId);
 
     List<Line> selAllLine();
 
@@ -51,7 +44,7 @@ public interface MixerMapper {
      * @param drvCcode
      * @return
      */
-    Dlv selDlvByDrvCcodeAndMixerFcode(Integer drvCcode,String mixerFcode);
+    Dlv selDlvByDrvCcodeAndMixerFcode(@Param("drvCcode") Integer drvCcode, @Param("mixerFcode") String mixerFcode);
 
     /**
      * 根据司机查询可以驾驶的搅拌车
