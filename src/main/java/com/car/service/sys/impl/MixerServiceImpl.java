@@ -83,7 +83,7 @@ public class MixerServiceImpl implements MixerService {
     }
 
     @Override
-    public Map<String, Object> findMixerQueue(Drv drv) {
+    public Map<String, Object> findMixerQueue(Drv drv,Integer mixerId) {
         Map<String, Object> map = new HashMap<>();
 
 
@@ -121,10 +121,15 @@ public class MixerServiceImpl implements MixerService {
 
         map.put("lines",lines);
 
+        Mixer mixer = this.findMixerById(mixerId);
+
+        Dlv d = null;
         /**
          * 查询是否有发车的发货单
          */
-        Dlv d = mixerMapper.selDlvByDrvCcode(drv.getDrvCcode());
+        if(mixer != null) {
+           d = mixerMapper.selDlvByDrvCcodeAndMixerFcode(drv.getDrvCcode(),mixer.getMixerFcode());
+        }
         /**
          * 如果该司机有发货单
          */

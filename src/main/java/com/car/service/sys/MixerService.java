@@ -38,7 +38,7 @@ public interface MixerService {
      * 查询搅拌车队列信息
      * @return
      */
-    Map<String,Object> findMixerQueue(Drv drv);
+    Map<String,Object> findMixerQueue(Drv drv,Integer mixerId);
 
     /**
      * 根据司机查询可以驾驶的搅拌车

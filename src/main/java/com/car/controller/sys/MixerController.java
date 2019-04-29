@@ -8,6 +8,7 @@ import com.car.service.sys.DrvService;
 import com.car.service.sys.MixerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +26,8 @@ public class MixerController {
      * 查询车辆详情，准驾 司机，当班司机
      * @return
      */
-    @GetMapping("/findMixerInfo")
-    public Result findMixerInfo(Integer mixerId,
+    @GetMapping("/findMixerInfo/{mixerId}")
+    public Result findMixerInfo(@PathVariable Integer mixerId,
             HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
         return Result.ok(mixerService.findMixerInfo(drv,mixerId));
@@ -37,8 +38,8 @@ public class MixerController {
      * @param request
      * @return
      */
-    @RequestMapping("/onDuty")
-    public Result onDuty(Integer mixerId,HttpServletRequest request) {
+    @RequestMapping("/onDuty/{mixerId}")
+    public Result onDuty(@PathVariable Integer mixerId, HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
         Mixer mixer = mixerService.findMixerById(mixerId);
         Drv drvOnduty = drvService.findDrvOndutyByMixerId(mixer.getMixerId());
@@ -57,10 +58,10 @@ public class MixerController {
      * @param request
      * @return
      */
-    @RequestMapping("/offDuty")
-    public Result offDuty(HttpServletRequest request) {
+    @RequestMapping("/offDuty/{mixerId}")
+    public Result offDuty(@PathVariable Integer mixerId, HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
-        Mixer mixer = mixerService.findMixerByDrvQaulified(drv.getDrvId());
+        Mixer mixer = mixerService.findMixerById(mixerId);
         Drv drvOnduty = drvService.findDrvOndutyByMixerId(mixer.getMixerId());
         if(drvOnduty == null) {
             return Result.ok("当前车辆无当班司机");
@@ -80,10 +81,10 @@ public class MixerController {
      * 查看车辆排队
      * @return
      */
-    @RequestMapping("/vehicleQueue")
-    public Result vehicleQueue(HttpServletRequest request) {
+    @RequestMapping("/vehicleQueue/{mixerId}")
+    public Result vehicleQueue(@PathVariable Integer mixerId, HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
-        return Result.ok(mixerService.findMixerQueue(drv));
+        return Result.ok(mixerService.findMixerQueue(drv,mixerId));
     }
 
 }
