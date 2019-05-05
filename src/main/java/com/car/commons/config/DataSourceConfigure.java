@@ -36,6 +36,18 @@ public class DataSourceConfigure {
         return DataSourceBuilder.create().build();
     }
 
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.sda")
+    public DataSource sda() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.sh")
+    public DataSource sh() {
+        return DataSourceBuilder.create().build();
+    }
+
 
     @Bean("dynamicDataSource")
     @Qualifier("dynamicDataSource")
@@ -45,6 +57,8 @@ public class DataSourceConfigure {
         dataSourceMap.put(DataSourceEnum.ST,this.st());
         dataSourceMap.put(DataSourceEnum.JH,this.jh());
         dataSourceMap.put(DataSourceEnum.SD,this.sd());
+        dataSourceMap.put(DataSourceEnum.SDA,this.sda());
+        dataSourceMap.put(DataSourceEnum.SH,this.sh());
         dynamicRoutingDataSource.setTargetDataSources(dataSourceMap);
         return dynamicRoutingDataSource;
     }

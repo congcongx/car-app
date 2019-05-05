@@ -81,7 +81,15 @@
       AND m.useable = 1
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selDrvOnduty" resultType="string">
+       SELECT
+          m.mixer_fcode
+       FROM b_drv_onduty do
+       INNER JOIN b_mixer m ON do.mixer_id = m.mixer_id
+       WHERE do.drv_id = #{drvId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_mixer
     where mixer_id = #{mixerId,jdbcType=INTEGER}
   </delete>

@@ -32,7 +32,7 @@ public class WxTask {
     @Scheduled(cron="0 0/1 * * * ?")
     private void refreshAccessToken() {
         Long expire = redisTemplate.getExpire(Const.WX_ACCESS_TOKEN_KEY);
-        if(expire < 300) {
+        if(expire < 1200) {
             StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=");
             sb.append(appid).append("&secret=").append(secret);
             String s = HttpClientUtil.doGet(sb.toString());

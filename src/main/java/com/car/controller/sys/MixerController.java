@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/sys/mixer")
@@ -41,10 +42,15 @@ public class MixerController {
     @RequestMapping("/onDuty/{mixerId}")
     public Result onDuty(@PathVariable Integer mixerId, HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
+
         Mixer mixer = mixerService.findMixerById(mixerId);
         Drv drvOnduty = drvService.findDrvOndutyByMixerId(mixer.getMixerId());
         if(drvOnduty != null) {
             return Result.ok("当前车辆当班司机为："+ drvOnduty.getDrvName());
+        }
+        List<String> drvOndutyByDrvId = mixerService.findDrvOndutyByDrvId(drv.getDrvId());
+        if(drvOndutyByDrvId.size() > 0) {
+            return Result.error("您是"+drvOndutyByDrvId.toString()+"号车的当班司机，请先取消再接班");
         }
         mixerService.onDuty(mixer.getMixerId(), drv.getDrvId());
 
@@ -60,6 +66,12 @@ public class MixerController {
     public Result offDuty(@PathVariable Integer mixerId, HttpServletRequest request) {
         Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
         Mixer mixer = mixerService.findMixerById(mixerId);
+        Integer status = mixer.getMixerStatus();
+        //车辆在制单状态
+        if(status==Const.MIXER_LOADWAIT||status==Const.MIXER_LOAD||status==Const.MIXER_DLVTRANS
+                ||status==Const.MIXER_SDLVTRANS){
+            return Result.error("该送货单生产未结束，不能交班");
+        }
         Drv drvOnduty = drvService.findDrvOndutyByMixerId(mixer.getMixerId());
         if(drvOnduty == null) {
             return Result.ok("当前车辆无当班司机");

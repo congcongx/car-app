@@ -52,4 +52,11 @@ public interface MixerMapper {
      * @return
      */
     List<Mixer> selQaulifiedMixerByDrvId(Integer drvId);
+
+    /**
+     * 查询司机正在当班的车辆
+     * @param drvId
+     * @return
+     */
+    List<String> selDrvOnduty(Integer drvId);
 }

@@ -171,4 +171,10 @@ public class MixerServiceImpl implements MixerService {
         return mixerMapper.selAllLine();
     }
 
+
+    @Override
+    public List<String> findDrvOndutyByDrvId(Integer drvId) {
+        return mixerMapper.selDrvOnduty(drvId);
+    }
+
 }

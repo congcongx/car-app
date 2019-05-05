@@ -40,6 +40,13 @@ spring:
         username: shengtian
         password: evMyV0X5EhlPS4545BmaNYmE
         port: 3306
+      sh:
+        name: sh
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.2.100:3306/tongyun_mes?useSSL=false
+        username: root
+        password: root
+        port: 3306
   redis:
     host: 192.168.9.100
     port: 6379
@@ -59,6 +66,6 @@ mq:
 
 
 wx:
-  appid: wx0e36f3629b4822e2
-  secret: 08162a25e3d76066c5f14af2479b459a
-  templateId: yGkGgR0u3nj1X5p6ZfamN2fMc9ts4hDUyjHDd6hEQ1k
+  appid: wx4f5eaae5d35613f8
+  secret: df3a6a381a83411f092829634abeafc4
+  templateId: k_Q0SEtmAFNW-YamXjpLOjZXZBd7NoEkvbpPIRJ3hvE

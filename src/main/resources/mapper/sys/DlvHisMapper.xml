@@ -5,7 +5,8 @@
     <select id="countTransVolsByDay" resultType="map">
         SELECT
             DATE_FORMAT(dh.crt_time, '%Y-%m-%d') crtTime,
-            SUM(dh.trans_vol) transVols
+            SUM(dh.trans_vol) transVols,
+            'DAY' AS 'type'
         FROM
             (
                 <foreach collection="nums" item="num" separator="UNION ALL">
@@ -15,8 +16,8 @@
                   FROM
                     b_dlv_his_${num}
                   WHERE
-                   crt_time > #{weekTime}
-                  AND crt_time &lt; #{nextDay}
+                    crt_time
+                  BETWEEN #{startDate} AND #{endDate}
                   AND drv_ccode = #{drvCcode}
                 </foreach>
             ) dh
@@ -29,7 +30,8 @@
     <select id="countTransVolsByMonth" resultType="map">
         SELECT
             DATE_FORMAT(dh.crt_time, '%Y-%m') crtTime,
-            SUM(dh.trans_vol) transVols
+            SUM(dh.trans_vol) transVols,
+            'MONTH' AS 'type'
         FROM
            (
             <foreach collection="nums" item="num" separator="UNION ALL">
@@ -39,8 +41,8 @@
                 FROM
                    b_dlv_his_${num}
                 WHERE
-                  crt_time > #{sixMonth}
-                AND crt_time &lt; #{nextMonth}
+                  crt_time
+                  >= DATE_FORMAT(#{sixMonth},'%Y%m') AND crt_time &lt;= DATE_FORMAT(#{endDate},'%Y%m')
                 AND drv_ccode = #{drvCcode}
             </foreach>
             ) dh
@@ -48,5 +50,48 @@
             crtTime
         ORDER BY
             crtTime
+    </select>
+
+    <select id="countSumByCrtTime" resultType="java.util.Map">
+        SELECT
+            SUM(dh.trans_vol) transVols,
+            SUM(dh.make_trans_count) maketTransCounts,
+            SUM(dh.real_dist) realDists
+        FROM
+        (
+          <foreach collection="nums" item="num" separator="UNION ALL">
+              SELECT
+                 trans_vol,make_trans_count,real_dist
+              FROM b_dlv_his_${num}
+              WHERE
+                drv_ccode = #{drvCcode}
+              AND
+                DATE_FORMAT(crt_time, #{datePattern}) = DATE_FORMAT(#{crtTime}, #{datePattern})
+          </foreach>
+        ) dh
+    </select>
+
+    <select id="countTransVolsByYear" resultType="map">
+        SELECT
+            DATE_FORMAT(dh.crt_time, '%Y') crtTime,
+            SUM(dh.trans_vol) transVols,
+            'YEAR' AS 'type'
+        FROM
+            (
+            <foreach collection="nums" item="num" separator="UNION ALL">
+                SELECT
+                    crt_time,
+                    trans_vol
+                FROM
+                 b_dlv_his_${num}
+                WHERE
+                crt_time &lt;= now()
+                AND drv_ccode = #{drvCcode}
+            </foreach>
+            ) dh
+        GROUP BY
+          crtTime
+        ORDER BY
+          crtTime
     </select>
 </mapper>

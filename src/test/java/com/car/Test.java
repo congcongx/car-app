@@ -12,7 +12,7 @@ public class Test {
         Date nowTime = DateUtil.strToDate(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nowTime);
-        calendar.add(Calendar.DAY_OF_MONTH,-6);
+        calendar.add(Calendar.MONTH,-6);
         String s = DateUtil.dateToStr(calendar.getTime());
         System.out.println(s);
     }

@@ -33,6 +33,20 @@ spring:
         username: gerp
         password: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
         port: 3306
+      sda:
+        name: sda
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useSSL=false
+        username: gerp
+        password: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
+        port: 3306
+      sh:
+        name: sh
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useSSL=false
+        username: gerp
+        password: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
+        port: 3306
   redis:
     host: 118.190.71.200
     port: 6381

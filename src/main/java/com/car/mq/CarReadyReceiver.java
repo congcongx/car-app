@@ -70,7 +70,6 @@ public class CarReadyReceiver {
 
         String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+redisTemplate.opsForValue().get(Const.WX_ACCESS_TOKEN_KEY);
         String s = HttpClientUtil.doPostJson(url, JsonUtil.objToJsonStr(wx));
-        System.out.println(s);
     }
 
 }

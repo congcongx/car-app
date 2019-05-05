@@ -1,5 +1,7 @@
 package com.car.commons.util;
 
+import com.car.commons.constants.Const;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -906,5 +908,36 @@ public class DateUtil {
 		calendar.setTime(date);
 		calendar.add(Calendar.MONTH, month);
 		return calendar.getTime();
+	}
+
+	public static String getDatePattern(String type) {
+		String datePattern = null;
+		if(Const.DAY.equals(type)) {
+			datePattern = "%Y%d%m";
+		} else if (Const.MONTH.equals(type)) {
+			datePattern = "%Y%m";
+		} else if (Const.YEAR.equals(type)) {
+			datePattern = "%Y";
+		}
+		return  datePattern;
+	}
+
+	public static Date strToDateByType(String date,String type) {
+		String pattern = "";
+		if(Const.DAY.equals(type)) {
+			pattern = "yyyy-MM-dd";
+		} else if(Const.MONTH.equals(type)) {
+			pattern = "yyyy-MM";
+		} else if(Const.YEAR.equals(type)) {
+			pattern = "yyyy";
+		}
+		DateFormat sdf = new SimpleDateFormat(pattern);
+		Date parse = null;
+		try {
+			parse = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return parse;
 	}
 }

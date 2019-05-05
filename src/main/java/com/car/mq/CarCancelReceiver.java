@@ -40,7 +40,7 @@ public class CarCancelReceiver {
 
         Map<String, Object> first = new HashMap<>();
         first.put("value", "该车已撤销生产！！");
-        first.put("color", "#173177");
+        first.put("color", "#FF0000");
 
         Map<String, Object> keyword1 = new HashMap<>();
         keyword1.put("value", mqMessageTemplate.getDlvId());
@@ -69,7 +69,6 @@ public class CarCancelReceiver {
 
         String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + redisTemplate.opsForValue().get(Const.WX_ACCESS_TOKEN_KEY);
         String s = HttpClientUtil.doPostJson(url, JsonUtil.objToJsonStr(wx));
-        System.out.println(s);
     }
 }
 

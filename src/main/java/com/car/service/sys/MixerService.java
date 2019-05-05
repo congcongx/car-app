@@ -53,4 +53,9 @@ public interface MixerService {
      * @return
      */
     List<Line> findAllLine();
+
+    /**
+     * 查询所有当班的车辆
+     */
+    List<String> findDrvOndutyByDrvId(Integer drvId);
 }
