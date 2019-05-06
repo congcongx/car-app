@@ -55,13 +55,13 @@
     <select id="countSumByCrtTime" resultType="java.util.Map">
         SELECT
             SUM(dh.trans_vol) transVols,
-            SUM(dh.make_trans_count) maketTransCounts,
+            COUNT(id) maketTransCounts,
             SUM(dh.real_dist) realDists
         FROM
         (
           <foreach collection="nums" item="num" separator="UNION ALL">
               SELECT
-                 trans_vol,make_trans_count,real_dist
+                 id,trans_vol,make_trans_count,real_dist
               FROM b_dlv_his_${num}
               WHERE
                 drv_ccode = #{drvCcode}
