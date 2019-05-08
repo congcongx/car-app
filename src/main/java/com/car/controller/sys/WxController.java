@@ -22,15 +22,12 @@ public class WxController {
     @RequestMapping("/callback")
     public Object callback(HttpServletRequest request){
         String code = request.getParameter("code");
-        System.out.println("code:   "+code);
         StringBuilder url = new StringBuilder("https://api.weixin.qq.com/sns/oauth2/access_token");
         url.append("?appid="+appid);
         url.append("&secret="+secret);
         url.append("&code="+code);
         url.append("&grant_type=authorization_code");
         String s = HttpClientUtil.doGet(url.toString());
-        System.out.println("appid:" + appid);
-        System.out.println("secret:" + secret);
         return s;
     }
 }

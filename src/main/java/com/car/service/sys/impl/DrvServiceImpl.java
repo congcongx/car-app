@@ -3,20 +3,23 @@ package com.car.service.sys.impl;
 import com.car.commons.constants.Const;
 import com.car.commons.pojo.Result;
 import com.car.commons.util.HttpClientUtil;
+import com.car.commons.util.JsonUtil;
 import com.car.domain.sys.Drv;
 import com.car.domain.sys.Mixer;
 import com.car.mapper.sys.DrvMapper;
+import com.car.mapper.sys.MixerMapper;
 import com.car.service.sys.DrvService;
-import com.car.service.sys.MixerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class DrvServiceImpl implements DrvService {
@@ -25,13 +28,13 @@ public class DrvServiceImpl implements DrvService {
     private DrvMapper drvMapper;
 
     @Autowired
-    private MixerService mixerService;
+    private MixerMapper mixerMapper;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
 
     @Override
-    public Result login(String openid, String dataSource, HttpServletRequest request) {
+    public Result login(String openid, String dataSource, HttpServletRequest request, HttpServletResponse response) {
 
         Drv drv = drvMapper.selDrvByOpenid(openid);
         if(drv == null) {
@@ -51,11 +54,12 @@ public class DrvServiceImpl implements DrvService {
 
         String userInfo = HttpClientUtil.doGet(sb.toString());
         Map<String,Object> map = new HashMap<>();
-
-        List<Mixer> mixers = mixerService.selQaulifiedMixerByDrvId(drv.getDrvId());
+        List<Mixer> mixers = mixerMapper.selQaulifiedMixerByDrvId(drv.getDrvId());
         map.put("mixers",mixers);
         map.put("userInfo",userInfo);
-
+        map.put("token",request.getSession().getId());
+        //设置过期时间为半小时
+        redisTemplate.opsForValue().set(Const.SESSION_KEY+request.getSession().getId(),JsonUtil.objToJsonStr(drv),1800,TimeUnit.SECONDS);
         return Result.ok(map);
     }
 

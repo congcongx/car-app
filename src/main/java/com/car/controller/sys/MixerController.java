@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sys/mixer")
-public class MixerController {
+public class MixerController extends BaseController{
 
     @Autowired
     private MixerService mixerService;
@@ -28,21 +28,18 @@ public class MixerController {
      * @return
      */
     @GetMapping("/findMixerInfo/{mixerId}")
-    public Result findMixerInfo(@PathVariable Integer mixerId,
-            HttpServletRequest request) {
-        Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
+    public Result findMixerInfo(@PathVariable Integer mixerId) {
+        Drv drv = super.getDrv();
         return Result.ok(mixerService.findMixerInfo(drv,mixerId));
     }
 
     /**
      * 接班
-     * @param request
      * @return
      */
     @RequestMapping("/onDuty/{mixerId}")
-    public Result onDuty(@PathVariable Integer mixerId, HttpServletRequest request) {
-        Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
-
+    public Result onDuty(@PathVariable Integer mixerId) {
+        Drv drv = super.getDrv();
         Mixer mixer = mixerService.findMixerById(mixerId);
         Drv drvOnduty = drvService.findDrvOndutyByMixerId(mixer.getMixerId());
         if(drvOnduty != null) {
@@ -59,12 +56,11 @@ public class MixerController {
 
     /**
      * 交班
-     * @param request
      * @return
      */
     @RequestMapping("/offDuty/{mixerId}")
-    public Result offDuty(@PathVariable Integer mixerId, HttpServletRequest request) {
-        Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
+    public Result offDuty(@PathVariable Integer mixerId) {
+        Drv drv = super.getDrv();
         Mixer mixer = mixerService.findMixerById(mixerId);
         Integer status = mixer.getMixerStatus();
         //车辆在制单状态
@@ -93,7 +89,7 @@ public class MixerController {
      */
     @RequestMapping("/vehicleQueue/{mixerId}")
     public Result vehicleQueue(@PathVariable Integer mixerId, HttpServletRequest request) {
-        Drv drv = (Drv) request.getSession().getAttribute(Const.SESSION_KEY);
+        Drv drv = super.getDrv();
         return Result.ok(mixerService.findMixerQueue(drv,mixerId));
     }
 

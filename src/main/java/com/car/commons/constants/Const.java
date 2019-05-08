@@ -6,7 +6,7 @@ public interface Const {
      */
     String DATASOURCE = "dataSource";
 
-    String SESSION_KEY = "session_key";
+    String SESSION_KEY = "session_key:";
 
     Integer USEABLE_ACTIVE = 1; //激活
 

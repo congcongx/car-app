@@ -1,6 +1,5 @@
 package com.car.controller.sys;
 
-import com.car.commons.constants.Const;
 import com.car.commons.pojo.Result;
 import com.car.domain.sys.Drv;
 import com.car.service.sys.ReportService;
@@ -14,28 +13,28 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class ReportController {
+public class ReportController extends BaseController{
 
     @Autowired
     private ReportService reportService;
 
     @GetMapping("/countByDay")
     public Result countByDay(String startDate,String endDate, HttpServletRequest request) throws ParseException {
-        Drv drv = (Drv)request.getSession().getAttribute(Const.SESSION_KEY);
+        Drv drv = super.getDrv();
         List<Map<String, Object>> maps = reportService.countByDay(drv.getDrvCcode(),startDate,endDate);
         return Result.ok(maps);
     }
 
     @GetMapping("/countByMonth")
-    public Result countByMonth(String endDate, HttpServletRequest request) throws ParseException {
-        Drv drv = (Drv)request.getSession().getAttribute(Const.SESSION_KEY);
+    public Result countByMonth(String endDate) throws ParseException {
+        Drv drv = super.getDrv();
         List<Map<String, Object>> maps = reportService.countByMonth(drv.getDrvCcode(), endDate);
         return Result.ok(maps);
     }
 
     @GetMapping("/countByYear")
     public Result countByYear(String endDate, HttpServletRequest request) throws ParseException {
-        Drv drv = (Drv)request.getSession().getAttribute(Const.SESSION_KEY);
+        Drv drv = super.getDrv();
         List<Map<String, Object>> maps = reportService.countByYear(drv.getDrvCcode(),endDate);
         return Result.ok(maps);
     }
@@ -47,8 +46,8 @@ public class ReportController {
      * @return
      */
     @GetMapping("reportSum")
-    public Result reportSum(String crtTime,String type,HttpServletRequest request) {
-        Drv drv = (Drv)request.getSession().getAttribute(Const.SESSION_KEY);
+    public Result reportSum(String crtTime,String type) {
+        Drv drv = super.getDrv();
         Map<String, Object> map = reportService.countByType(drv.getDrvCcode(), crtTime, type);
         return Result.ok(map);
     }
