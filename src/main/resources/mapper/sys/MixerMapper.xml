@@ -89,6 +89,18 @@
        WHERE do.drv_id = #{drvId}
     </select>
 
+    <select id="selWaitMixer" resultType="string">
+      SELECT
+          m.mixer_fcode
+      FROM
+          b_line_mixer lm
+      INNER JOIN b_mixer m ON lm.mixer_id = m.mixer_id
+      WHERE
+          m.useable = 1
+      ORDER BY
+          lm.prior
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_mixer
     where mixer_id = #{mixerId,jdbcType=INTEGER}

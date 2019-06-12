@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +37,14 @@ public class CarReadyReceiver {
     @RabbitHandler
     public void process(String  msg) throws Exception {
         MqMessageTemplate mqMessageTemplate = JsonUtil.jsonStrToObj(msg, MqMessageTemplate.class);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mqMessageTemplate.getTime());
+        calendar.add(Calendar.MINUTE,10);
+        if(calendar.getTime().before(new Date())) {
+            return;
+        }
+
         WxMessageTemplate wx = new WxMessageTemplate();
         wx.setTouser(mqMessageTemplate.getOpenid());
         wx.setTemplate_id(templateId);

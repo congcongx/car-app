@@ -89,6 +89,14 @@ public class MixerServiceImpl implements MixerService {
          * 查询生产线上的搅拌车
          */
         List<Dlv> dlvs = mixerMapper.selLineMixer();
+        /**
+         * 等待派单的搅拌车
+         */
+        List<String> waitMixer = mixerMapper.selWaitMixer();
+        /**
+         * 等待派单的车辆
+         */
+        map.put("waitMixer",waitMixer);
 
         /**
          * 遍历生产线下面的车辆

@@ -59,4 +59,10 @@ public interface MixerMapper {
      * @return
      */
     List<String> selDrvOnduty(Integer drvId);
+
+    /**
+     * 查询所有等待派单的车辆
+     * @return
+     */
+    List<String> selWaitMixer();
 }
