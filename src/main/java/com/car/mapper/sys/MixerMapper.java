@@ -44,7 +44,7 @@ public interface MixerMapper {
      * @param drvCcode
      * @return
      */
-    Dlv selDlvByDrvCcodeAndMixerFcode(@Param("drvCcode") Integer drvCcode, @Param("mixerFcode") String mixerFcode);
+    List<Dlv> selDlvByDrvCcodeAndMixerFcode(@Param("drvCcode") Integer drvCcode, @Param("mixerFcode") String mixerFcode);
 
     /**
      * 根据司机查询可以驾驶的搅拌车

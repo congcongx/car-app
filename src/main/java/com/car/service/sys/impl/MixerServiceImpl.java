@@ -11,6 +11,7 @@ import com.car.service.sys.MixerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,35 +126,35 @@ public class MixerServiceImpl implements MixerService {
 
         Mixer mixer = this.findMixerById(mixerId);
 
-        Dlv d = null;
+        List<Dlv> dlvList = new ArrayList<>();
         /**
          * 查询是否有发车的发货单
          */
         if(mixer != null) {
-           d = mixerMapper.selDlvByDrvCcodeAndMixerFcode(drv.getDrvCcode(),mixer.getMixerFcode());
+            dlvList = mixerMapper.selDlvByDrvCcodeAndMixerFcode(drv.getDrvCcode(), mixer.getMixerFcode());
         }
         /**
          * 如果该司机有发货单
          */
-        if(d != null) {
+        if(!dlvList.isEmpty()) {
             map.put("titleInfo",true);
-            map.put("lineMixer",d.getLineId()+"#"+d.getMixerFcode());
-            map.put("plateNo",d.getPlateNo());
-            map.put("mixerFcode",d.getMixerFcode());
-            map.put("lineId",d.getLineId());
+            map.put("lineMixer",dlvList.get(0).getLineId()+"#"+dlvList.get(0).getMixerFcode());
+            map.put("plateNo",dlvList.get(0).getPlateNo());
+            map.put("mixerFcode",dlvList.get(0).getMixerFcode());
+            map.put("lineId",dlvList.get(0).getLineId());
             /**
              * 获取司机排队位置
              */
             for(Line line : lines) {
-                if(d.getLineId().equals(line.getLineId())) {
-                    if(line.getProductMixerFcode().contains(d.getMixerFcode())) {
+                if(dlvList.get(0).getLineId().equals(line.getLineId())) {
+                    if(line.getProductMixerFcode().contains(dlvList.get(0).getMixerFcode())) {
                         map.put("mixerIndex","当前排队:生产中");
                     }
-                    if(d.getMixerFcode().equals(line.getReadyMixerFcode())) {
+                    if(dlvList.get(0).getMixerFcode().equals(line.getReadyMixerFcode())) {
                         map.put("mixerIndex","当前排队:准备中");
                     }
-                    if(line.getWaitMixerFcode().contains(d.getMixerFcode())) {
-                        map.put("mixerIndex","当前排队:第"+ (line.getWaitMixerFcode().indexOf(d.getMixerFcode())+1) + "位");
+                    if(line.getWaitMixerFcode().contains(dlvList.get(0).getMixerFcode())) {
+                        map.put("mixerIndex","当前排队:第"+ (line.getWaitMixerFcode().indexOf(dlvList.get(0).getMixerFcode())+1) + "位");
                     }
                 }
             }

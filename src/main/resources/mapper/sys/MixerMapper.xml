@@ -42,7 +42,7 @@
 
   <select id="selLineMixer" resultType="Dlv">
       SELECT
-        d.mixer_fcode,
+        DISTINCT d.mixer_fcode,
         d.dlv_status,
         d.line_id
       FROM b_dlv d
