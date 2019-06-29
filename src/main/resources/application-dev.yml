@@ -15,21 +15,21 @@ spring:
       st:
         name: st
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/st?useSSL=false
-        password: 123456
-        username: root
+        jdbc-url: jdbc:mysql://rrds6w668056ajs86v72f.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useSSL=false
+        username: gerp
+        password: yAMxZGKVEYRU3qPpcmsrBf6vXH4L5njC
         port: 3306
       jh:
         name: jh
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://localhost:3306/jh?useSSL=false
-        password: 123456
-        username: root
+        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_mes_app_a?useSSL=false
+        username: gerp
+        password: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
         port: 3306
       sd:
         name: sd
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_c_mes?useSSL=false
+        jdbc-url: jdbc:mysql://rm-m5egj8m3y952pf6e9.mysql.rds.aliyuncs.com:3306/gerp_mes_app_a?useSSL=false
         username: gerp
         password: wcyGke4tWDRxiBdsp2b6TAfzNrL123Fn
         port: 3306
