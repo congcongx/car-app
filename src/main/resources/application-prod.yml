@@ -47,6 +47,12 @@ spring:
         username: root
         password: root
         port: 3306
+      dx:
+        name: dx
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.5.100:3306/tongyun_mes?useSSL=false
+        username: gerptodaxing
+        password: evMyV0X5EhlPS4545BmaNYmE
   redis:
     host: 192.168.9.100
     port: 6379

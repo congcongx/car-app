@@ -5,5 +5,6 @@ public enum DataSourceEnum {
     JH,
     SD,
     SDA,
-    SH
+    SH,
+    DX
 }
